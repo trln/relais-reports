@@ -1,8 +1,7 @@
 import os
 import pymssql
 
-# This is set on the EC2 instance via a script
-# in /etc/profile.d
+# This is set via a script in /etc/profile.d on the ec2 instance
 def_host = os.environ['RELAIS_DB_HOST']
 def_user = os.environ['RELAIS_DB_USER']
 def_password = os.environ['RELAIS_DB_PASSWORD']

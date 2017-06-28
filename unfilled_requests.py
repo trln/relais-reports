@@ -18,5 +18,5 @@ q = """SELECT ID_DELIVERY.REQUEST_NUMBER, ID_DELIVERY.DATE_PROCESSED,
 
 columns = ['Request Number', 'Date Processed', 'Patron Name', 'Patron Surname', 'Author', 'Title']
 
-if __name__ == __main__:
+if __name__ == "__main__":
 	report.write_report(q, f, cols=columns)
