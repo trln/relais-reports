@@ -12,7 +12,7 @@ num_days_reports_to_retain = 14
 local_reports_base_path = '/relaisdata/reports'
 
 # Name of the bucket where reports are stored
-s3_bucket_name = 'trln.relais.reports'
+s3_bucket_name = os.environ['RELAIS_S3_BUCKET']
 
 # Report: [Remote report folder, Local report folder, Report file name suffix]
 reports = {'Unfilled Requests':['Unfilled Requests', 'unfilled_requests', 'unfilled_requests'] }
@@ -56,5 +56,5 @@ def sync():
 			b.delete_objects(Delete={'Objects':[{'Key':remote} for remote in paths['delete']]})
 
 # Executes sync if run directly from the command line
-if __name__ == __main__:
+if __name__ == "__main__":
 	sync()
