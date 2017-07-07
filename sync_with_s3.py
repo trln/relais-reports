@@ -35,7 +35,8 @@ def compute_files_to_put_and_delete(local_report_folder, reference_files, remote
 def get_remote_file_paths(report_folder_name):
 	s3c = boto3.client('s3')
 	results = s3c.list_objects_v2(Bucket=s3_bucket_name, StartAfter=report_folder_name)['Contents']
-	remote_files = [rf['Key'].split('/')[1] for rf in results if rf['Key'].endswith('.csv')]
+	remote_files = [rf['Key'].split('/')[1] for rf in results 
+                        if rf['Key'].startswith(report_folder_name) and rf['Key'].endswith('.csv')]
 	return remote_files
 
 # Does all the operations
