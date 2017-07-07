@@ -15,7 +15,8 @@ local_reports_base_path = '/relaisdata/reports'
 s3_bucket_name = os.environ['RELAIS_S3_BUCKET']
 
 # Report: [Remote report folder, Local report folder, Report file name suffix]
-reports = {'Unfilled Requests':['Unfilled Requests', 'unfilled_requests', 'unfilled_requests'] }
+reports = {'Unfilled Requests':['Unfilled Requests', 'unfilled_requests', 'unfilled_requests'],
+           'Requests Summary' :['Requests Summary', 'requests_summary', 'requests_summary']}
 
 # Computes the reference list of files based on todays date
 def compute_reference_files(filename_suffix):
