@@ -6,7 +6,7 @@ import report
 from datetime import datetime, timedelta
 
 # Number of days of historical reports to keep
-num_days_reports_to_retain = {'unfilled_requests' : 15, 'requests_summary' : 91}
+max_report_age_days = {'unfilled_requests' : 7, 'requests_summary' : 90}
 
 # Where are the reports stored locally
 local_reports_base_path = '/relaisdata/reports'
@@ -22,14 +22,14 @@ def keep(filename):
 	report_date = report.extract_date_from_filename(filename)
 	report_name = report.extract_report_name_from_filename(filename)
 	today = datetime.today()
-	max_report_age = timedelta(days=num_days_reports_to_retain[report_name])
-	return max_report_age > today - report_date
+	max_report_age = timedelta(days=max_report_age_days[report_name])
+	return max_report_age >= today - report_date
 
 # Gets a list of report files from S3
 def get_remote_file_paths(report_folder_name):
 	s3c = boto3.client('s3')
 	results = s3c.list_objects_v2(Bucket=s3_bucket_name, StartAfter=report_folder_name)['Contents']
-	remote_files = [rf['Key'].split('/')[1] for rf in results 
+	remote_files = [rf['Key'] for rf in results 
                         if rf['Key'].startswith(report_folder_name) and rf['Key'].endswith('.csv')]
 	return remote_files
 
