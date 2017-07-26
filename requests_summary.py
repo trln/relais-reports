@@ -6,55 +6,39 @@ report_key = 'requests_summary'
 
 f = '/relaisdata/reports/{0}/{1}'.format(report_key, report.get_report_filename(report_key))
 
-q = """DECLARE @startOfCurrentMonth DATETIME ;
+q = """ DECLARE @startOfCurrentMonth DATETIME ;
  SET @startOfCurrentMonth = DATEADD(month, DATEDIFF(month, 0, CURRENT_TIMESTAMP), 0) ;
- SELECT
-  P.INSTITUTION_NAME AS Borrower,
-  D.INSTITUTION_NAME as Lender,
-  D.REQUEST_NUMBER,
-  P.PATRON_ID,
-  PL.PICKUP_LOCATION_DESC AS PICKUP_LOCATION,
-  convert(varchar, R.DATE_SUBMITTED, 101) as REQUEST_DATE, 
-  convert(varchar, R.DATE_SUBMITTED, 108) as REQUEST_TIME,
-  convert(varchar, D.DATE_PROCESSED, 101) as DATE_PROCESSED, 
-  convert(varchar, D.DATE_PROCESSED, 108) as TIME_PROCESSED,
-  D.DELIVERY_DATE AS RECEIVED_DATE,
-  P.PATRON_TYPE,
-  R.AUTHOR, 
-  R.TITLE,
-  R.PUBLISHER,
-  R.PUBLICATION_PLACE,
-  R.PUBLICATION_YEAR,
-  R.ISBN,
-  R.ISBN_2,
-  R.OCLC_NUM,
-  -- LCCN
-  R.CALL_NUMBER,
-  R.LOCAL_ITEM_FOUND
- FROM ID_DELIVERY D INNER JOIN ID_REQUEST R
- ON D.REQUEST_NUMBER = R.REQUEST_NUMBER
- JOIN ID_LIBRARY L
- ON R.LIBRARY_ID = L.LIBRARY_ID 
- JOIN ID_PICKUP_LOCATION PL
- ON D.DELIV_ADDRESS = PL.PICKUP_LOCATION
- JOIN 
- (SELECT P.PATRON_ID,
-     PT.PATRON_TYPE, 
-     PB.INSTITUTION_NAME,
-     PB.LIBRARY
-  FROM ID_PATRON P
-  JOIN ID_PATRON_TYPE PT
-  ON P.PATRON_TYPE = PT.PATRON_TYPE
-  JOIN ID_LIBRARY PB
-  ON P.LIBRARY_ID = PB.LIBRARY_ID) P
-  on R.PATRON_ID = P.PATRON_ID
-  WHERE 
- 1=1 
- AND R.DATE_SUBMITTED >= DATEADD(month, -1, @startOfCurrentMonth)
- AND R.DATE_SUBMITTED < @startOfCurrentMonth
- ORDER BY D.REQUEST_NUMBER ;"""
-
-
+ SELECT L.INSTITUTION_NAME AS Borrower, 
+        S.LIBRARY as Lender, 
+        D.REQUEST_NUMBER, 
+        P.PATRON_ID, 
+        PL.PICKUP_LOCATION_DESC AS PICKUP_LOCATION,
+        convert(varchar, R.DATE_SUBMITTED, 101) as REQUEST_DATE, 
+        convert(varchar, R.DATE_SUBMITTED, 108) as REQUEST_TIME,
+        convert(varchar, D.DATE_PROCESSED, 101) as DATE_PROCESSED, 
+        convert(varchar, D.DATE_PROCESSED, 108) as TIME_PROCESSED,
+        D.DELIVERY_DATE AS RECEIVED_DATE, 
+        P.PATRON_TYPE, 
+        R.AUTHOR, 
+        R.TITLE, 
+        R.PUBLISHER, 
+        R.PUBLICATION_PLACE, 
+        R.PUBLICATION_YEAR,
+        R.ISBN, 
+        R.ISBN_2, 
+        R.OCLC_NUM, 
+        R.CALL_NUMBER, 
+        R.LOCAL_ITEM_FOUND
+FROM    ((((ID_REQUEST R
+        LEFT JOIN ID_DELIVERY D ON R.REQUEST_NUMBER = D.REQUEST_NUMBER)
+        LEFT JOIN dbo.ID_LIBRARY L ON R.LIBRARY_ID = L.LIBRARY_ID)
+        LEFT JOIN dbo.ID_SUPPLIER S ON D.SUPPLIER_CODE_1 = S.SUPPLIER_CODE)
+        LEFT JOIN ID_PATRON P ON R.PATRON_ID = P.PATRON_ID AND R.LIBRARY_ID = P.LIBRARY_ID)
+        LEFT JOIN dbo.ID_PICKUP_LOCATION PL ON D.DELIV_ADDRESS = PL.PICKUP_LOCATION AND R.LIBRARY_ID = PL.LIBRARY_ID
+WHERE   R.DATE_SUBMITTED >= DATEADD(month, -1, @startOfCurrentMonth)
+AND     R.DATE_SUBMITTED < @startOfCurrentMonth
+ORDER BY D.REQUEST_NUMBER
+"""
 #columns = ['Borrower', 'Lender', 'Request Number', 
 #           'Pick Up Location', 'Request Date', 'Ship Date',
 #           'Received Date', 'Status', 'Shelving Location',
