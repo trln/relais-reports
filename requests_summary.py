@@ -38,13 +38,6 @@ WHERE   R.DATE_SUBMITTED >= DATEADD(month, -1, @startOfCurrentMonth)
 AND     R.DATE_SUBMITTED < @startOfCurrentMonth
 ORDER BY D.REQUEST_NUMBER
 """
-#columns = ['Borrower', 'Lender', 'Request Number', 
-#           'Pick Up Location', 'Request Date', 'Ship Date',
-#           'Received Date', 'Status', 'Shelving Location',
-#           'Patron Type', 'Author', 'Title', 'Publisher',
-#           'Publication Place', 'Publication Year', 'ISBN',
-#           'OCLC', 'LCCN', 'Call Number', 'Local Item Found']
-
 # Temporary columns to help staff figure out what they want.
 columns = ['PATRON.INSTITUTION_NAME', 'DELIVERY.INSTITUTION_NAME', 'DELIVERY.REQUEST_NUMBER',
            'DELIVERY.PICKUP_LOCATION', 'REQUEST.DATE_SUBMITTED (DATE)',
