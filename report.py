@@ -30,7 +30,7 @@ def write_report(query, file_name=None, connection=None, cols=None):
 	if cols is not None:
 		wr.writerow(cols)
 	for row in cursor:
-		wr.writerow([unicode(s).encode("utf-8") for s in row])
+		wr.writerow([str(s).encode("utf-8") for s in row])
 
 def extract_date_from_filename(filename):
 	import datetime
