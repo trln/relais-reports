@@ -36,7 +36,7 @@ def get_remote_file_paths(report_folder_name):
 # Does all the operations
 def sync():
 	b = boto3.resource('s3').Bucket(s3_bucket_name)
-	for report, vals in reports.iteritems():
+	for report, vals in reports.items():
 		remote_folder = vals[0]
 		remote_file_paths = get_remote_file_paths(remote_folder)
 		for path in remote_file_paths:
