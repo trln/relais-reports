@@ -28,4 +28,4 @@ columns = ['Request Number', 'Date Processed', 'TimeProcessed',
            'Requesting Institution']
 
 if __name__ == "__main__":
-	report.write_report(q, f, cols=columns)
+    report.write_report(q, f, cols=columns)
