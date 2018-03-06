@@ -35,8 +35,8 @@ def write_report(query, file_name=None, connection=None, cols=None):
 
 def extract_date_from_filename(filename):
     import datetime
-        a = [int(i) for i in filename.split('_')[0:3]]
-        return datetime.datetime(a[0], a[1], a[2])
+    a = [int(i) for i in filename.split('_')[0:3]]
+    return datetime.datetime(a[0], a[1], a[2])
 
 def extract_report_name_from_filename(filename):
         return '_'.join(filename.split('_')[-2:]).split('.')[0]
