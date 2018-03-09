@@ -2,7 +2,9 @@
 
 import report
 
-f = '/relaisdata/reports/unfilled_requests/{0}'.format(report.get_report_filename('unfilled_requests'))
+reportname = report.get_report_filename('unfilled_requests')
+
+f = '/relaisdata/reports/unfilled_requests/{0}'.format(reportname)
 
 q = """SELECT 
   D.REQUEST_NUMBER,
@@ -29,3 +31,4 @@ columns = ['Request Number', 'Date Processed', 'TimeProcessed',
 
 if __name__ == "__main__":
     report.write_report(q, f, cols=columns)
+
