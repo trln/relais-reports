@@ -19,7 +19,7 @@ def get_report_filename(file_name_suffix, ext='.csv', dt=None):
     d = datetime.datetime.today()
     if dt is not None:
         d = dt
-    return d.strftime('%Y_%m_%d_%H_%M_%S_{0}{1}'.format(file_name_suffix, ext))
+    return d.strftime('%Y_%m_%d_{0}{1}'.format(file_name_suffix, ext))
 
 
 # Query the DB and write out SQL into a file
