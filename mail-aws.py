@@ -20,10 +20,10 @@ report_location = unfilled_requests.f
 
 # The subject line of the email.
 d = datetime.datetime.today().strftime('%Y-%m-%d')
-SUBJECT = '[Relais Unfilled Report] {}'.format(d)
+SUBJECT = '[TRLN Direct Unfilled Report] {}'.format(d)
 
 # The email body for recipients with non-HTML email clients.
-BODY_TEXT = ("Relais Unfilled Report {}\r\n"
+BODY_TEXT = ("TRLN Direct Unfilled Report  {}\r\n"
              "Please see the attached CSV file for unfilled requests."
              "This and previous reports are available at "
              "http://trln.relais.reports.s3-website-us-east-1.amazonaws.com/Unfilled%20Requests"
@@ -34,7 +34,7 @@ BODY_TEXT = ("Relais Unfilled Report {}\r\n"
 BODY_HTML = """<html>
 <head></head>
 <body>
-  <h1>Relais Unfilled Report {}</h1>
+  <h1>TRLN Direct Unfilled Report {}</h1>
   <p>Please see the attached CSV file for unfilled requests. 
   This and previous reports are available 
   <a href='http://trln.relais.reports.s3-website-us-east-1.amazonaws.com/Unfilled%20Requests'>
