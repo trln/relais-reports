@@ -6,7 +6,7 @@ import report
 from datetime import datetime, timedelta
 
 # Number of days of historical reports to keep
-max_report_age_days = {'unfilled_requests' : 7, 'requests_summary' : 90}
+max_report_age_days = {'unfilled_requests' : 14, 'requests_summary' : 90}
 
 # Where are the reports stored locally
 local_reports_base_path = '/relaisdata/reports'
