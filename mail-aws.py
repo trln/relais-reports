@@ -9,9 +9,9 @@ import unfilled_requests
 import datetime
 
 
-SENDER = 'jim.tuttle@unc.edu'
-SENDERNAME = 'Jim Tuttle'
-RECIPIENT  = 'jim.tuttle@unc.edu'
+SENDER = 'jjt@email.unc.edu'
+SENDERNAME = 'TRLN Direct'
+RECIPIENT  = 'trln-direct@listserv.unc.edu'
 USERNAME_SMTP = os.environ['SMTP_USER']
 PASSWORD_SMTP = os.environ['SMTP_PASSWORD']
 HOST = "email-smtp.us-west-2.amazonaws.com"
