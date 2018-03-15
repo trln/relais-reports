@@ -19,41 +19,35 @@ port = 587
 report_location = unfilled_requests.f
 
 
-def request_count(path):
-    """Return number of unfilled requests in report"""
-    requests = sum(1 for line in open(path)) - 1
-    print(requests)
-    return requests
-
-
-def build_email(requests, path):
+def build_email(path):
     """Construct the message and add attachment"""
-
-    # The subject line of the email.
+    requests = sum(1 for line in open(path)) - 1
+    # Subject
     d = datetime.datetime.today().strftime('%Y-%m-%d')
-    subject = '[TRLN Direct Unfilled Report] {}'.format(d)
+    subject = "Unfilled Requests:{}   {}".format(requests, d)
 
     # The email body for recipients with non-HTML email clients.
-    body_text = ("TRLN Direct Unfilled Report  {}\r\n"
-                 "Please see the attached CSV file for unfilled requests."
-                 "This and previous reports are available at "
-                 "http://trln.relais.reports.s3-website-us-east-1.amazonaws.com/Unfilled%20Requests"
-                 " .".format(d)
-    )
-
-    # The HTML body of the email.
+    body_text = """TRLN Direct Unfilled Requests: {0}\r\n
+                 There are {0} requests today.  """.format(requests, d)
+    if requests > 0:
+        body_text += "Please see the attached CSV file for unfilled requests.  "
+    body_text += """This and previous reports are available at 
+                  http://trln.relais.reports.s3-website-us-east-1.amazonaws.com/Unfilled%20Requests
+                  """.format(requests)
+    # HTML body
     body_html = """<html>
     <head></head>
     <body>
-      <h1>TRLN Direct Unfilled Report {}</h1>
-      <p>Please see the attached CSV file for unfilled requests. 
-      This and previous reports are available 
+      <h1>TRLN Direct Unfilled Requests: {0}</h1>
+      <p>There are {0} requests today.<br />""".format(requests)
+    if requests > 0:
+        body_html += "Please see the attached CSV file for unfilled requests.  "
+    body_html += """This and previous reports are available 
       <a href='http://trln.relais.reports.s3-website-us-east-1.amazonaws.com/Unfilled%20Requests'>
       here</a>.
       </p>
     </body>
-    </html>
-                """.format(d)
+    </html>"""
 
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
@@ -65,22 +59,25 @@ def build_email(requests, path):
     part1 = MIMEText(body_text, 'plain')
     part2 = MIMEText(body_html, 'html')
 
-    # Build the attachment.
-    report_file = open(report_location)
-    attachment = MIMEText(report_file.read(), _subtype="csv", _charset="utf-8")
-    report_file.close()
-    attachment.add_header("Content-Disposition", "attachment",
-                          filename="{}".format(report_location.rsplit('/', 1, )[1]))
-    msg.attach(attachment)
+    if requests > 0:
+        # Build the attachment.
+        report_file = open(report_location)
+        attachment = MIMEText(report_file.read(), _subtype="csv", _charset="utf-8")
+        report_file.close()
+        attachment.add_header("Content-Disposition", "attachment",
+                              filename="{}".format(report_location.rsplit('/', 1, )[1]))
+        msg.attach(attachment)
 
     # Attach parts into message container.
     # According to RFC 2046, the last part of a multipart message, in this case
     # the HTML message, is best and preferred.
     msg.attach(part1)
     msg.attach(part2)
+    return msg
 
 
-def send_email():
+def send_email(msg, host, port, smtp_user, smtp_password, sender, recipient):
+    """Authenticate to SMTP and send message"""
     # Try to send the message.
     try:
         server = smtplib.SMTP(host, port)
@@ -100,8 +97,9 @@ def send_email():
 
 def main():
     """Main logic to makes this module callable from other code."""
-    requests = request_count(report_location)
-    build_email(requests, report_location)
+    msg = build_email(report_location)
+    send_email(msg, host, port, smtp_user, smtp_password, sender, recipient)
+
 
 if __name__ == "__main__":
     main()
