@@ -1,3 +1,4 @@
 relais_db_env.sh
 *.pyc
 __pycache__
+.idea
