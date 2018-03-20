@@ -17,7 +17,7 @@ Body:
 ### TRLN Direct Unfilled Requests: 4
 
 There are 4 requests today.
-Please see the attached CSV file for unfilled requests. This and previous reports are available [here](link/). 
+Please see the attached CSV file for unfilled requests. This and previous reports are available [here](README.md). 
 
 The attached CSV looks like this:
 
@@ -29,7 +29,7 @@ The attached CSV looks like this:
 | NCS-10013692	 | 03/19/2018	    | 12:52:57	    | 03/18/2018	  | 02:04:48	    | OLYMPIA NICODEMI | AN INTRODUCTION TO ABSTRACT ALGEBRA | North Carolina State University |
 | NCS-10013705	 | 03/19/2018	    | 12:51:06	    | 03/18/2018	  |23:41:54	      | STUART TYSON SMITH | ASKUT IN NUBIA	| North Carolina State University|
 
-[listname] is the subject line prefix that our listserv system automatically adds to incoming emails.  
+[listname] is the subject line prefix that our listserv system automatically adds to incoming emails.  And, of course, the link to reports in the email would link to the actual S3 space with the reports.
 
 
 ## Requirements
