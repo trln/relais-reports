@@ -9,7 +9,8 @@ f = '/relaisdata/reports/{0}/{1}'.format(report_key, report.get_report_filename(
 q = """ DECLARE @startOfCurrentMonth DATETIME ;
  SET @startOfCurrentMonth = DATEADD(month, DATEDIFF(month, 0, CURRENT_TIMESTAMP), 0) ;
  SELECT L.INSTITUTION_NAME AS Borrower, 
-        S.LIBRARY as Lender, 
+        S.LIBRARY as Lender,
+        D.SUPPLIER_CODE_1, 
         D.REQUEST_NUMBER, 
         PL.PICKUP_LOCATION_DESC AS PICKUP_LOCATION,
         convert(varchar, R.DATE_SUBMITTED, 101) as REQUEST_DATE, 
