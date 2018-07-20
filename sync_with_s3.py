@@ -6,7 +6,7 @@ import report
 from datetime import datetime, timedelta
 
 # Number of days of historical reports to keep
-max_report_age_days = {'unfilled_requests' : 14, 'requests_summary' : 90}
+max_report_age_days = {'unfilled_requests' : 14, 'requests_summary' : 90, 'annual_reports': 700}
 
 # Where are the reports stored locally
 local_reports_base_path = '/relaisdata/reports'
@@ -16,7 +16,8 @@ s3_bucket_name = os.environ['RELAIS_S3_BUCKET']
 
 # Report: [Remote report folder, Local report folder, Report file name suffix]
 reports = {'Unfilled Requests':['Unfilled Requests', 'unfilled_requests', 'unfilled_requests'],
-           'Requests Summary' :['Requests Summary', 'requests_summary', 'requests_summary']}
+           'Requests Summary' :['Requests Summary', 'requests_summary', 'requests_summary'],
+           'Annual Reports' :['Annual Reports', 'annual_reports', 'annual_reports']}
 
 
 def keep(filename):

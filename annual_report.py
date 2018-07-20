@@ -2,7 +2,7 @@
 
 import report
 
-report_key = 'annual_report'
+report_key = 'annual_reports'
 
 f = '/relaisdata/reports/{0}/{1}'.format(report_key, report.get_report_filename(report_key))
 
