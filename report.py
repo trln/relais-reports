@@ -33,13 +33,8 @@ def write_report(query, file_name=None, connection=None, cols=None):
     if cols is not None:
         wr.writerow(cols)
     for row in cursor:
-        for s in row:
-		if type(s) == str:
-    			s = unicode(s, "utf-8", errors="ignore")
-		else:
-    			s = unicode(s)
-    #wr.writerow([str(s).encode('ascii', 'ignore') for s in row])
-    wr.writerow(row)
+        #wr.writerow([str(s).encode('ascii', 'ignore') for s in row])
+        wr.writerow(row)
 
 
 def extract_date_from_filename(filename):
